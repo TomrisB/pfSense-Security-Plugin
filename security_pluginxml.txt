@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<package>
+  <name>security_plugin</name>
+  <version>1.5.0</version>
+  <configfile>security_plugin.xml</configfile>
+  <description><![CDATA[
+    <p><strong>Advanced Security Suite for pfSense</strong></p>
+    <p>Integrated threat protection with:</p>
+    <ul>
+      <li>Real-time IP blocking</li>
+      <li>VirusTotal API integration</li>
+      <li>Suricata alert management</li>
+      <li>Threat intelligence feeds</li>
+    </ul>
+    <p>Supports pfSense 2.6+ and CE/Plus editions</p>
+  ]]></description>
+
+  <license>BSD-2-Clause</license>
+  <copyright>2024 Your Name</copyright>
+
+  <menu>
+    <section>Services</section>
+    <title>Scanner</title>
+    <url>/security_plugin/security_plugin.php</url>
+  </menu>
+
+  <files>
+    <file>/usr/local/www/security_plugin/security_plugin.php</file>
+    <file>/usr/local/pkg/security_plugin/suricata.inc</file>
+    <file>/usr/local/pkg/security_plugin/virustotal.inc</file>
+    <file>/usr/local/pkg/security_plugin/ip_blocker.inc</file>
+    <file>/usr/local/pkg/security_plugin.inc</file>
+    <file>/usr/local/pkg/security_plugin.xml</file>
+    <file>/usr/local/bin/blocker.sh</file>
+  </files>
+
+  <include>
+    <item>functions.inc</item>
+    <item>util.inc</item>
+    <item>pkg-utils.inc</item>
+  </include>
+
+  <service>
+    <name>security-plugin</name>
+    <rcfile>/usr/local/bin/blocker.sh</rcfile>
+    <executable>blocker</executable>
+  </service>
+
+  <security_plugin>
+  <virustotal>
+    <api_key>c764b6c6d59464a6e826203fc012e6e1a3dde873629153f0235af23919424dbc</api_key>
+  </virustotal>
+</security_plugin>
+
+
+  <install>
+    <step>
+      <name>create-dirs</name>
+      <script><![CDATA[
+        mkdir -p /usr/local/www/security_plugin
+        mkdir -p /var/log/security_plugin
+        mkdir -p /var/cache/virustotal
+        chown -R root:wheel /usr/local/pkg/security_plugin
+        chmod -R 755 /usr/local/pkg/security_plugin
+        chmod -R 755 /usr/local/pkg/security_plugin
+        chmod -R 755 /usr/local/www/security_plugin
+      ]]></script>
+    </step>
+  </install>
+    
+  <uninstall>
+    <step>
+      <name>cleanup</name>
+      <script><![CDATA[
+        rm -rf /usr/local/pkg/security_plugin
+        rm -rf /usr/local/www/security_plugin
+        rm -f /usr/local/bin/blocker.sh
+        rm -rf /var/log/security_plugin
+      ]]></script>
+    </step>
+  </uninstall>
+  
+  <advanced_options>
+    <option>
+      <name>enable_virustotal</name>
+      <type>checkbox</type>
+      <default_value>1</default_value>
+      <description>Enable VirusTotal integration</description>
+    </option>
+    <option>
+      <name>autoblock_threshold</name>
+      <type>input</type>
+      <default_value>3</default_value>
+      <description>Minimum VT detection score for auto-block</description>
+    </option>
+  </advanced_options>
+</package>
+  
+
+  
+    
