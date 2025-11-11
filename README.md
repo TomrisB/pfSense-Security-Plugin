@@ -16,7 +16,7 @@ This plugin integrates IP blocking, Suricata log analysis, and VirusTotal scanni
 Below are screenshots from the pfSense Security Plugin interface:
 
 | Dashboard | IP Blocker | VirusTotal |
-|------------|-------------|-------------|------|
+|-----------|------------|------------|
 | ![Dashboard](UI/dashboard.jpg) | ![IP Blocker](UI/ipblocker.jpg) | ![VirusTotal](UI/virustotal.jpg) |
 
 ### Suricata Logs
